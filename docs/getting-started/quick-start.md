@@ -29,6 +29,15 @@ If needed, adjust the following values before running:
 - `actor_rollout_ref.model.path`
 - dataset paths under `~/data/gsm8k`
 
+The example defaults to one GPU. To wait for an idle GPU and start automatically:
+
+```bash
+bash examples/run_when_gpu_available.sh
+```
+
+The watcher prints GPU status while waiting, streams training output to the
+terminal, and saves the same output under `logs/`.
+
 The script entrypoint is [`examples/run_qwen2.5-3b.sh`](https://github.com/AgentR1/Agent-R1/blob/main/examples/run_qwen2.5-3b.sh), which launches `python3 -m agent_r1.trainer.main_agent_ppo`.
 
 ## 3. What to Do Next
