@@ -31,7 +31,9 @@ python3 -m agent_r1.trainer.main_agent_ppo \
     actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=4 \
     actor_rollout_ref.rollout.tensor_model_parallel_size=1 \
     actor_rollout_ref.rollout.name=vllm \
-    actor_rollout_ref.rollout.gpu_memory_utilization=0.6 \
+    actor_rollout_ref.rollout.gpu_memory_utilization=0.4 \
+    actor_rollout_ref.rollout.max_model_len=1536 \
+    actor_rollout_ref.rollout.max_num_seqs=128 \
     actor_rollout_ref.rollout.n=2 \
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=4 \
     actor_rollout_ref.ref.fsdp_config.param_offload=True \
