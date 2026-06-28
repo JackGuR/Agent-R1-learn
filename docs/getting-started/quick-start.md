@@ -38,6 +38,17 @@ bash examples/run_when_gpu_available.sh
 The watcher prints GPU status while waiting, streams training output to the
 terminal, and saves the same output under `logs/`.
 
+For a slower single-GPU profile targeting roughly 30-40 GiB of GPU memory,
+use the CPU-offload configuration:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 bash examples/run_qwen2.5-3b_low_memory.sh
+```
+
+This profile reduces rollout concurrency and response length, disables CUDA
+graphs for rollout, and offloads actor parameters, optimizer state, and
+activations to CPU memory.
+
 The script entrypoint is [`examples/run_qwen2.5-3b.sh`](https://github.com/AgentR1/Agent-R1/blob/main/examples/run_qwen2.5-3b.sh), which launches `python3 -m agent_r1.trainer.main_agent_ppo`.
 
 ## 3. What to Do Next
