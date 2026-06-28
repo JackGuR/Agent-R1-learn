@@ -5,8 +5,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Favor a smaller GPU footprint over throughput. CPU offload requires ample
 # host RAM and makes training slower, but keeps a 3B GRPO sanity run near the
-# 30-40 GiB range on a single GPU.
-export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+# 30-40 GiB range on a single GPU. vLLM's sleep-mode memory pool is not
+# compatible with PyTorch expandable segments, so do not inherit that option.
+unset PYTORCH_CUDA_ALLOC_CONF
+unset PYTORCH_ALLOC_CONF
 
 bash "$SCRIPT_DIR/run_qwen2.5-3b.sh" \
     data.train_batch_size=32 \
