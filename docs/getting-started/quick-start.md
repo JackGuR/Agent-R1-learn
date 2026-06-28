@@ -49,6 +49,16 @@ This profile reduces rollout concurrency and response length, disables CUDA
 graphs for rollout, and offloads actor parameters, optimizer state, and
 activations to CPU memory.
 
+For better throughput while keeping LoRA and targeting roughly 30-40 GiB on
+an 80 GiB GPU, use the balanced profile:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 bash examples/run_qwen2.5-3b_balanced.sh
+```
+
+The balanced profile disables CPU offload, increases rollout concurrency, and
+uses CUDA graphs. It defaults to three epochs and saves every 100 steps.
+
 The script entrypoint is [`examples/run_qwen2.5-3b.sh`](https://github.com/AgentR1/Agent-R1/blob/main/examples/run_qwen2.5-3b.sh), which launches `python3 -m agent_r1.trainer.main_agent_ppo`.
 
 ## 3. What to Do Next
