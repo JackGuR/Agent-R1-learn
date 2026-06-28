@@ -57,7 +57,19 @@ CUDA_VISIBLE_DEVICES=0 bash examples/run_qwen2.5-3b_balanced.sh
 ```
 
 The balanced profile disables CPU offload, increases rollout concurrency, and
-uses CUDA graphs. It defaults to three epochs and saves every 100 steps.
+uses CUDA graphs. It defaults to three epochs, saves every 100 steps, and uses
+a fixed 2 GiB vLLM KV cache so startup does not depend on fluctuating free GPU
+memory. Override it with `VLLM_KV_CACHE_MEMORY_BYTES` when needed.
+
+For a substantive run intended to finish in roughly one day on one A800, train
+the 1.5B model on the complete GSM8K dataset for three epochs:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 bash examples/run_qwen2.5-1.5b_day.sh
+```
+
+This profile uses full-parameter GRPO rather than LoRA, targets roughly
+30-40 GiB, and saves and validates every 100 steps.
 
 The script entrypoint is [`examples/run_qwen2.5-3b.sh`](https://github.com/AgentR1/Agent-R1/blob/main/examples/run_qwen2.5-3b.sh), which launches `python3 -m agent_r1.trainer.main_agent_ppo`.
 
