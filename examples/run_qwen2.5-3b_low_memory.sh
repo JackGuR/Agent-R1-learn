@@ -11,10 +11,14 @@ unset PYTORCH_CUDA_ALLOC_CONF
 unset PYTORCH_ALLOC_CONF
 
 bash "$SCRIPT_DIR/run_qwen2.5-3b.sh" \
-    data.train_batch_size=32 \
+    data.train_batch_size=16 \
     data.max_response_length=512 \
+    actor_rollout_ref.model.lora_rank=16 \
+    actor_rollout_ref.model.lora_alpha=32 \
+    actor_rollout_ref.model.target_modules=all-linear \
     actor_rollout_ref.model.enable_activation_offload=True \
-    actor_rollout_ref.actor.ppo_mini_batch_size=8 \
+    actor_rollout_ref.actor.optim.lr=1e-5 \
+    actor_rollout_ref.actor.ppo_mini_batch_size=4 \
     actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=1 \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu=2048 \
     actor_rollout_ref.actor.use_torch_compile=False \
@@ -27,6 +31,8 @@ bash "$SCRIPT_DIR/run_qwen2.5-3b.sh" \
     actor_rollout_ref.rollout.max_num_batched_tokens=1024 \
     actor_rollout_ref.rollout.max_num_seqs=16 \
     actor_rollout_ref.rollout.enforce_eager=True \
+    actor_rollout_ref.rollout.load_format=safetensors \
+    actor_rollout_ref.rollout.layered_summon=True \
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=1 \
     actor_rollout_ref.ref.log_prob_max_token_len_per_gpu=2048 \
     trainer.experiment_name=qwen2_5_3b_low_memory \
